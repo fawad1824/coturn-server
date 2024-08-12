@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC TURN Server Test</title>
+</head>
+<body>
+    <h1>WebRTC TURN Server Test</h1>
+    <p id="status">Initializing...</p>
+
+    <script>
+        // Replace with your TURN server credentials
+        const turnServerConfig = {
+            iceServers: [
+                {
+                    urls: 'turn:localhost:3478',
+                    username: 'username',
+                    credential: 'password'
+                }
+            ]
+        };
+
+        const peerConnection = new RTCPeerConnection(turnServerConfig);
+
+        peerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                document.getElementById('status').textContent = 'ICE candidate found!';
+                console.log('ICE candidate:', event.candidate);
+            } else {
+                document.getElementById('status').textContent = 'ICE candidate gathering complete.';
+            }
+        };
+
+        peerConnection.oniceconnectionstatechange = () => {
+            if (peerConnection.iceConnectionState === 'connected') {
+                document.getElementById('status').textContent = 'Successfully connected to TURN server!';
+            }
+        };
+
+        // Create a dummy data channel to trigger ICE candidate gathering
+        peerConnection.createDataChannel('test');
+
+        // Start the ICE candidate gathering process
+        peerConnection.createOffer()
+            .then((offer) => {
+                return peerConnection.setLocalDescription(offer);
+            })
+            .catch((error) => {
+                document.getElementById('status').textContent = 'Error: ' + error;
+            });
+    </script>
+</body>
+</html>

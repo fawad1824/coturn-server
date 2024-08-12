@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  coturn:
+    image: instrumentisto/coturn
+    container_name: coturn
+    restart: unless-stopped
+    ports:
+      - "3478:3478"       # STUN/TURN UDP
+      - "3478:3478/udp"   # STUN/TURN UDP
+      - "3478:3478/tcp"   # STUN/TURN TCP
+      - "5349:5349"       # STUN/TURN TLS
+      - "5349:5349/udp"   # STUN/TURN TLS
+      - "5349:5349/tcp"   # STUN/TURN TLS
+    environment:
+      - TURN_PORT=3478
+      - TURN_PORT_START=49152
+      - TURN_PORT_END=65535
+      - TURN_SERVER_NAME=localhost
+      - TURN_REALM=localhost
+      - TURN_USER=username:password
+      - TURN_LOG_LEVEL=3
+      - TURN_NO_TLS=1
+      - TURN_NO_DTLS=1
+    command: >
+      turnserver 
+      -v 
+      --no-dtls 
+      --no-tls 
+      --listening-port ${TURN_PORT} 
+      --min-port ${TURN_PORT_START} 
+      --max-port ${TURN_PORT_END} 
+      --realm=${TURN_REALM}
+      --user=${TURN_USER}
+      --external-ip=127.0.0.1
+      --log-file /var/log/turnserver/turn.log
+      --lt-cred-mech
+    volumes:
+      - ./data/turnserver:/var/log/turnserver
