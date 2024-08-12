@@ -6,12 +6,12 @@ services:
     container_name: coturn
     restart: unless-stopped
     ports:
-      - "3478:3478"       # STUN/TURN UDP
-      - "3478:3478/udp"   # STUN/TURN UDP
-      - "3478:3478/tcp"   # STUN/TURN TCP
-      - "5349:5349"       # STUN/TURN TLS
-      - "5349:5349/udp"   # STUN/TURN TLS
-      - "5349:5349/tcp"   # STUN/TURN TLS
+        - "3479:3478"
+        - "3479:3478/udp"
+        - "3479:3478/tcp"
+        - "5350:5349"
+        - "5350:5349/udp"
+        - "5350:5349/tcp"
     environment:
       - TURN_PORT=3478
       - TURN_PORT_START=49152
