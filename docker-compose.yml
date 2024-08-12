@@ -9,9 +9,6 @@ services:
       - "3478:3478"       # STUN/TURN UDP
       - "3478:3478/udp"   # STUN/TURN UDP
       - "3478:3478/tcp"   # STUN/TURN TCP
-      - "5349:5349"       # STUN/TURN TLS
-      - "5349:5349/udp"   # STUN/TURN TLS
-      - "5349:5349/tcp"   # STUN/TURN TLS
     environment:
       - TURN_PORT=3478
       - TURN_PORT_START=49152

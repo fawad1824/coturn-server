@@ -31,7 +31,10 @@
         };
 
         peerConnection.oniceconnectionstatechange = () => {
+            console.log(peerConnection);
+            
             if (peerConnection.iceConnectionState === 'connected') {
+                console.log("conntected connection");
                 document.getElementById('status').textContent = 'Successfully connected to TURN server!';
             }
         };

@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
 
 # Expose necessary ports
 EXPOSE 3478 3478/udp
-EXPOSE 5349 5349/udp
 
 # Copy the Coturn configuration file (if you have a custom one)
 # COPY turnserver.conf /etc/turnserver.conf
